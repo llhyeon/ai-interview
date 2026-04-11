@@ -5,7 +5,7 @@ declare namespace NodeJS {
 
     SUPABASE_SERVICE_ROLE_KEY: string;
 
-    OPENAI_API_KEY: string;
+    GEMINI_API_KEY: string;
 
     NODE_ENV: "development" | "production" | "test";
   }
