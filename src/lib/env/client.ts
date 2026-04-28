@@ -1,7 +1,4 @@
-export const env = {
+export const clientEnv = {
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
-
-  // gemini api key
-  geminiApiKey: process.env.GEMINI_API_KEY!,
 };
