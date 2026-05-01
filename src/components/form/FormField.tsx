@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useId } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 interface FormField {
@@ -13,6 +14,8 @@ interface FormField {
 
   register?: UseFormRegisterReturn;
   error?: string;
+
+  buttonDisabled?: boolean;
 }
 
 function FormField({
@@ -24,16 +27,18 @@ function FormField({
   onClick,
   register,
   error,
+  buttonDisabled = false,
 }: FormField) {
+  const id = useId();
   return (
     <div className="space-y-1">
-      <Label className="text-xs" htmlFor="link">
+      <Label className="text-xs" htmlFor={id}>
         {label}
       </Label>
       <div className="flex gap-4">
         <Input
           className="placeholder:text-xs"
-          id="link"
+          id={id}
           type={inputType}
           placeholder={placeholder}
           {...register}
@@ -42,7 +47,8 @@ function FormField({
           <Button
             className="hover:bg-blue-800 cursor-pointer transition-colors duration-300"
             type="button"
-            onClick={onClick}>
+            onClick={onClick}
+            disabled={buttonDisabled}>
             {buttonText}
           </Button>
         )}
