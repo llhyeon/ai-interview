@@ -2,7 +2,6 @@ import { supabaseAdmin as supabase } from "@/lib/supabase/admin";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  debugger;
   try {
     const { nickname } = await req.json();
 
@@ -19,7 +18,8 @@ export async function POST(req: Request) {
     return NextResponse.json({
       available: !data,
     });
-  } catch (e) {
+  } catch (err) {
+    console.error(`닉네임 중복확인 중 에러: ${err}`);
     return NextResponse.json(
       {
         message: "잘못된 요청입니다.",
