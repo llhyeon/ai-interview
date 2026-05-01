@@ -6,13 +6,16 @@ import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader } from "@/components/ui/card";
 import { signupSchema, SignupSchema } from "@/schemas/auth.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { error } from "console";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type NicknameCheckStatus = "idle" | "available" | "duplicate";
 
 function SignupForm() {
   const [nicknameCheckStatus, setNicknameCheckStatus] = useState<NicknameCheckStatus>("idle");
+  const [isChecking, setIsChecking] = useState(false); // 현재 닉네임 중복 검사 중
 
   const {
     register,
@@ -22,22 +25,35 @@ function SignupForm() {
     trigger,
   } = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
-    mode: "onChange",
+    mode: "onTouched",
+    reValidateMode: "onChange",
   });
 
+  // 닉네임 중복 확인
   const onCheckNickname = async () => {
+    setIsChecking(true);
     const isValid = await trigger("nickname");
     if (!isValid) return;
 
     const nickname = getValues("nickname");
-    const { available } = await checkNickname(nickname);
-
-    if (available) setNicknameCheckStatus("available");
-    else setNicknameCheckStatus("duplicate");
+    try {
+      const { available } = await checkNickname(nickname);
+      if (available) {
+        setNicknameCheckStatus("available");
+        toast.success("사용 가능한 닉네임입니다.");
+      } else {
+        setNicknameCheckStatus("duplicate");
+        toast.error("사용할 수 없는 닉네임입니다.");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsChecking(false);
+    }
   };
 
   const onSubmit = (data: SignupSchema) => {
-    console.log("Data", data);
+    if (nicknameCheckStatus !== "available") return;
   };
 
   return (
@@ -79,6 +95,7 @@ function SignupForm() {
               },
             })}
             error={errors.nickname?.message}
+            buttonDisabled={isChecking}
           />
           <Button
             type="submit"

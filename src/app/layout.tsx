@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const pretendard = localFont({
   src: [
@@ -36,10 +37,8 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        {/* <Link href={"/"} className="inline">
-          <Image src={"/images/avitalogo.svg"} alt="LOGO" width={100} height={100} />
-        </Link> */}
         {children}
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

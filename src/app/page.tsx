@@ -11,6 +11,4 @@ export default async function Home() {
   if (!user) redirect("/auth/login");
 
   redirect("/interview");
-
-  return null;
 }

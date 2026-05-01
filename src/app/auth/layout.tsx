@@ -2,8 +2,8 @@ import { Card } from "@/components/ui/card";
 
 function LoginLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="min-h-screen flex justify-center items-center">
-      <Card className="min-w-sm p-4">{children}</Card>
+    <section className="min-h-dvh flex justify-center items-center">
+      <Card className="w-full max-w-md p-4">{children}</Card>
     </section>
   );
 }
